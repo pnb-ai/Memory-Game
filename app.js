@@ -21,14 +21,34 @@ function playWrong(){
     wrongSound.currentTime=0;
     wrongSound.play();
 }
-document.addEventListener("keypress", function(){
-    if(started===false){
-         console.log("game started!");
-         started=true;
-         levelUp();
+let startBtn = document.querySelector("#startBtn");
+let resetBtn = document.querySelector("#resetBtn");
+
+startBtn.addEventListener("click", function () {
+    if (!started) {
+        started = true;
+        level = 0;
+        gameSequence = [];
+        userSequence = [];
+        counter = -1;
+        levelUp();
     }
-   
 });
+
+resetBtn.addEventListener("click", function () {
+    resetGame();
+});
+
+function resetGame() {
+    started = false;
+    gameSequence = [];
+    userSequence = [];
+    level = 0;
+    counter = -1;
+    acceptingInput = false;
+
+    h2.innerText = "Press Start to Play"; // clean UI
+}
 function gameFlash(btn){
     playPop();
     btn.classList.add("flash");
@@ -59,7 +79,7 @@ function levelUp(){
 }
 function gameEnd(){
     playWrong();
-    h2.innerText=`Game over! Your Score is ${level-1}\nPress any key to start the game again.`;
+   h2.innerText = `Game Over! Score: ${level-1}`;
     document.querySelector("body").style.backgroundColor="red";
     setTimeout(()=>{
         document.querySelector("body").style.backgroundColor="white";
